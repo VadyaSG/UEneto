@@ -1,29 +1,23 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "CppHubActor.h"
 
-
-// Sets default values
 ACppHubActor::ACppHubActor()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 
-// Called when the game starts or when spawned
 void ACppHubActor::BeginPlay()
 {
 	Super::BeginPlay();
 	GetWorldTimerManager().SetTimer(spawn_timer_handle, this, &ACppHubActor::OnTimeToSpawn, spawn_timer_rate, true);
+	InitialLocation = GetActorLocation();
 }
 
-// Called every frame
 void ACppHubActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	SinMovement();
 }
 
 void ACppHubActor::OnTimeToSpawn()
@@ -61,5 +55,15 @@ void ACppHubActor::OnTimeToDestroy()
 	{
 		GetWorldTimerManager().ClearTimer(destroy_timer_handle);
 	}
+}
+
+void ACppHubActor::SinMovement()
+{
+	float ranning_time = GetGameTimeSinceCreation();
+	float delta_z = amplitude * FMath::Sin(frequency * ranning_time);
+
+	FVector new_loc = InitialLocation;
+	new_loc.Z += delta_z;
+	SetActorLocation(new_loc);
 }
 

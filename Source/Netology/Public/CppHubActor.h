@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -15,14 +13,21 @@ class NETOLOGY_API ACppHubActor : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	ACppHubActor();
 	virtual void Tick(float DeltaTime) override;
 	void OnTimeToSpawn();
 	void OnTimeToDestroy();
 
+	UFUNCTION(BlueprintCallable, Category = "SinMovement")
+	void SinMovement();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SinMovement")
+	float amplitude = 50.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SinMovement")
+	float frequency = 1.f;
+
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(EditAnywhere)
@@ -42,5 +47,8 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<ACppBaseActor> cpp_class;
+
+private:
+	FVector InitialLocation;
 
 };
